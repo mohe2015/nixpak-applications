@@ -34,10 +34,17 @@
             # https://github.com/flathub/org.chromium.Chromium/blob/16ab27d32b3aa2c7d12ff392ca5f782c9eb27ec9/org.chromium.Chromium.yaml#L21
             bubblewrap.bind.rw = [
               (sloth.env "XDG_RUNTIME_DIR")
+                [(sloth.concat' sloth.homeDir "/Downloads/SandboxedChromium") (sloth.concat' sloth.homeDir "/Downloads")]
             ];
+            dbus.policies = {
+              "org.freedesktop.portal.Documents" = "talk";
+              "org.freedesktop.portal.Flatpak" = "talk";
+              "org.freedesktop.portal.Desktop" = "talk";
+              "org.freedesktop.portal.FileChooser" = "talk";
+            };
+            etc.sslCertificates.enable = true;
             bubblewrap.bind.ro = [
               "/run/dbus"
-              "/etc/ssl/certs/ca-certificates.crt"
               [
                 (pkgs.writeText "resolv.conf"
                   ''
